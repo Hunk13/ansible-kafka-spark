@@ -1,0 +1,22 @@
+---
+- name: Get Kafka "{{kafka.version}}"
+  get_url: url={{kafka.url}} dest={{kafka.tgz}} timeout=60
+
+- name: Create the remote directory for Kafka
+  file: path={{kafka.untar_to}} state=directory mode=0755
+
+- name: Unarchive Kafka
+  unarchive: copy=no src={{kafka.tgz}} dest={{kafka.untar_to}}
+
+- name: Symlink to the Kafka version
+  file: path={{kafka.symlink}} src={{kafka.symlink_to}} state=link
+
+- name: Generate the Kafka properties configuration
+  template: src=usr/local/lib/kafka/config/server.properties.j2 dest=/usr/local/lib/kafka/config/server.properties mode=0644
+  notify:
+    - start kafka
+
+- name: Run kafka as start system
+  shell: "{{kafka.symlink}}/bin/kafka-server-start.sh -daemon {{kafka.symlink}}/config/server.properties &"
+  args:
+    chdir: "{{kafka.symlink}}"

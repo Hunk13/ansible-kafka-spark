@@ -1,0 +1,8 @@
+---
+zookeeper:
+  version: 3.4.12
+  url: http://apache.cs.utah.edu/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz
+  tgz:         /tmp/zookeeper-3.4.12.tar.gz
+  untar_to:    /usr/local/lib/
+  symlink_to:  /usr/local/lib/zookeeper-3.4.12
+  symlink:     /usr/local/lib/zookeeper

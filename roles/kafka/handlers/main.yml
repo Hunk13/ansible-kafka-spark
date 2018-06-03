@@ -1,0 +1,18 @@
+---
+- name: start kafka
+  shell: "{{kafka.symlink}}/bin/kafka-server-start.sh {{kafka.symlink}}/config/server.properties &"
+  args:
+    chdir: "{{kafka.symlink}}"
+  register: command_start_kafka
+
+- name: delete topic
+  shell: "{{kafka.symlink}}/bin/kafka-topics.sh --delete --zookeeper localhost:2181/kafka --topic {{ kafka.topic_name }}"
+  args:
+    chdir: "{{kafka.symlink}}"
+  register: command_create_topic
+
+- name: create topic
+  shell: "{{kafka.symlink}}/bin/kafka-topics.sh --create --zookeeper localhost:2181/kafka --replication-factor 1 --partitions 1 --topic {{ kafka.topic_name }}"
+  args:
+    chdir: "{{kafka.symlink}}"
+  register: command_create_topic

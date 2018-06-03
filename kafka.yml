@@ -1,0 +1,8 @@
+---
+- name: Install zookeeper + kafka + spark
+  hosts: kafka.*
+  become: True
+  roles:
+    - zookeeper
+    - kafka
+    - spark

@@ -1,0 +1,12 @@
+---
+- name: start spark
+  shell: "{{spark.symlink}}/sbin/start-master.sh"
+  args:
+    chdir: "{{spark.symlink}}"
+  register: command_start_spark
+
+- name: stop spark
+  shell: "{{spark.symlink}}/sbin/stop-master.sh"
+  args:
+    chdir: "{{spark.symlink}}"
+  register: command_stop_spark

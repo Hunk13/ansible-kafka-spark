@@ -1,0 +1,35 @@
+---
+- name: add Java 8 repository
+  apt_repository: repo="{{item}}"
+  with_items:
+    - ppa:openjdk-r/ppa
+    - ppa:webupd8team/java
+
+- name: Install necessary packages
+  apt: name={{item}} state=latest update_cache=yes
+  with_items:
+    - openjdk-8-jdk
+
+- name: Download ZooKeeper {{zookeeper.version}}
+  get_url: url={{zookeeper.url}} dest={{zookeeper.tgz}} timeout=60
+
+- name: Create the remote directory for ZooKeeper
+  file: path={{zookeeper.untar_to}} state=directory mode=0755
+
+- name: Unarchive ZooKeeper
+  unarchive: copy=no src={{zookeeper.tgz}} dest={{zookeeper.untar_to}}
+
+- name: Symlink to the ZooKeeper version
+  file: path={{zookeeper.symlink}} src={{zookeeper.symlink_to}} state=link
+
+- name: Create the ZooKeeper configuration
+  template: src=usr/local/lib/zookeeper/conf/zoo.cfg.j2 dest={{zookeeper.symlink}}/conf/zoo.cfg
+  notify:
+    - stop zookeeper
+    - start zookeeper
+
+- name: Run zookeeper as start system
+  command: bin/zkServer.sh start {{zookeeper.symlink}}/conf/zoo.cfg
+  args:
+    chdir:  "{{zookeeper.symlink}}"
+    removes: /var/lib/zookeeper/zookeeper_server.pid

@@ -1,0 +1,9 @@
+---
+kafka:
+  version: 1.1.0
+  url: http://apache.mirrors.pair.com/kafka/1.1.0/kafka_2.11-1.1.0.tgz
+  tgz: /tmp/kafka_2.11-1.1.0.tgz
+  untar_to: /usr/local/lib
+  symlink_to: /usr/local/lib/kafka_2.11-1.1.0
+  symlink: /usr/local/lib/kafka
+  topic_name: Inbound

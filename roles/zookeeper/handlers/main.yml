@@ -1,0 +1,14 @@
+---
+- name: stop zookeeper
+  command: bin/zkServer.sh stop
+  args:
+    chdir:  "{{zookeeper.symlink}}"
+    removes: /var/lib/zookeeper/zookeeper_server.pid
+
+- name: start zookeeper
+  command: bin/zkServer.sh start
+  args:
+    chdir:   "{{zookeeper.symlink}}"
+    creates: /var/lib/zookeeper/zookeeper_server.pid
+  register: zookeeper_start_results
+  failed_when: "'FAILED' in zookeeper_start_results.stderr"

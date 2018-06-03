@@ -1,0 +1,23 @@
+---
+- name: Get Spark "{{spark.version}}"
+  get_url: url={{spark.url}} dest={{spark.tgz}} timeout=60
+
+- name: Create the remote directory for Spark
+  file: path={{spark.untar_to}} state=directory mode=0755
+
+- name: Unarchive Spark
+  unarchive: copy=no src={{spark.tgz}} dest={{spark.untar_to}}
+
+- name: Symlink to the Spark version
+  file: path={{spark.symlink}} src={{spark.symlink_to}} state=link
+
+- name: Generate the Spark properties configuration
+  template: src=usr/local/lib/spark/conf/spark-defaults.conf.j2 dest=/usr/local/lib/spark/conf/spark-defaults.conf mode=0644
+  notify:
+    - stop spark
+    - start spark
+
+- name: Run spark as start system
+  shell: "{{spark.symlink}}/sbin/start-master.sh"
+  args:
+    chdir: "{{kafka.symlink}}"

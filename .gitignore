@@ -1,0 +1,5 @@
+pub/sp/output
+pub/sp/target
+.vagrant
+.DS_Store
+commands.txt

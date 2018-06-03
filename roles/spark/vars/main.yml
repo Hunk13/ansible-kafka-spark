@@ -1,0 +1,8 @@
+---
+spark:
+  version: 2.3.0
+  url: http://www-eu.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.6.tgz
+  tgz:         /tmp/spark-2.3.0-bin-hadoop2.6.tgz
+  untar_to:    /usr/local/lib/
+  symlink_to:  /usr/local/lib/spark-2.3.0-bin-hadoop2.6
+  symlink:     /usr/local/lib/spark
