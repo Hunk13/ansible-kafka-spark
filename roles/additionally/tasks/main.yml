@@ -3,3 +3,4 @@
   with_items:
     - maven
     - inotify-tools
+    - zip
