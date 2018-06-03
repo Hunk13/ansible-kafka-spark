@@ -3,3 +3,6 @@ pub/sp/target
 .vagrant
 .DS_Store
 commands.txt
+.project
+.settings/
+.classpath
